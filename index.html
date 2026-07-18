@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#E8EBF1" />
+  <title>Pusat Rujukan Garis Panduan MBSP</title>
+  <link rel="stylesheet" href="styles.css?v=4.2.0" />
+  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+</head>
+<body>
+  <div id="app" class="app-shell" aria-busy="true">
+    <div class="window-bar" aria-hidden="true">
+      <div class="traffic-lights">
+        <span class="traffic-dot red"></span>
+        <span class="traffic-dot yellow"></span>
+        <span class="traffic-dot green"></span>
+      </div>
+      <div class="window-title">◆ MBSP · Pusat Rujukan Garis Panduan</div>
+      <div class="window-actions"><span>−</span><span>□</span></div>
+    </div>
+
+    <header class="topbar">
+      <div class="brand-row">
+        <div class="brand-monogram" aria-hidden="true">GP</div>
+        <div>
+          <p class="eyebrow">MAJLIS BANDARAYA SEBERANG PERAI</p>
+          <h1>Pusat Rujukan Dasar dan Garis Panduan</h1>
+          <p class="subtitle">Jabatan Perancang Bandar · carian dan rujukan dokumen dalam satu paparan</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="printBtn" class="button button-secondary" type="button">Cetak / PDF</button>
+        <button id="exportBtn" class="button button-primary" type="button">Eksport CSV</button>
+      </div>
+    </header>
+
+    <main>
+      <div id="mappingBanner" class="notice" hidden>
+        <strong>Pemetaan kolum belum lengkap.</strong>
+        <span id="mappingMessage">Buka Widget options dan padankan kolum yang diperlukan.</span>
+      </div>
+
+      <section class="panel filter-panel" aria-labelledby="filterTitle">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">PENAPIS INTERAKTIF</p>
+            <h2 id="filterTitle">Skop Rujukan</h2>
+          </div>
+          <div class="filter-summary">
+            <span id="recordSummary">0 daripada 0 rekod</span>
+            <button id="resetBtn" class="text-button" type="button">Set semula</button>
+          </div>
+        </div>
+
+        <div class="filter-grid">
+          <label class="field field-search">
+            <span>Carian bebas</span>
+            <input id="searchInput" type="search" placeholder="Cari tajuk, sinopsis, jabatan atau hashtag..." autocomplete="off" />
+          </label>
+          <label class="field"><span>Kategori</span><select id="categoryFilter"><option value="">Semua kategori</option></select></label>
+          <label class="field"><span>Subkategori</span><select id="subCategoryFilter"><option value="">Semua subkategori</option></select></label>
+          <label class="field"><span>Jabatan / Agensi</span><select id="departmentFilter"><option value="">Semua jabatan</option></select></label>
+          <label class="field"><span>Kelulusan</span><select id="approvalFilter"><option value="">Semua kelulusan</option></select></label>
+          <label class="field"><span>Tahun</span><select id="yearFilter"><option value="">Semua tahun</option></select></label>
+          <label class="field"><span>Hashtag</span><select id="hashtagFilter"><option value="">Semua hashtag</option></select></label>
+        </div>
+
+        <div class="filter-footer">
+          <div id="activeFilters" class="active-filters"><span class="empty-filter">Tiada penapis aktif</span></div>
+          <span id="updatedAt" class="updated-at">Belum dikemas kini</span>
+        </div>
+      </section>
+
+      <section class="panel table-panel" aria-labelledby="tableTitle">
+        <div class="table-header">
+          <div>
+            <p class="section-kicker">JADUAL RUJUKAN</p>
+            <h2 id="tableTitle">Senarai Dasar dan Garis Panduan</h2>
+          </div>
+          <label class="inline-field">Papar
+            <select id="pageSizeSelect">
+              <option value="10">10</option>
+              <option value="15" selected>15</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            rekod
+          </label>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th><button type="button" data-sort="id">ID <span></span></button></th>
+                <th><button type="button" data-sort="tajuk">TAJUK <span></span></button></th>
+                <th><button type="button" data-sort="kategori">KATEGORI <span></span></button></th>
+                <th><button type="button" data-sort="subKategori">SUB KATEGORI <span></span></button></th>
+                <th><button type="button" data-sort="sinopsis">SIPNOPSIS <span></span></button></th>
+                <th><button type="button" data-sort="jabatan">JABATAN <span></span></button></th>
+                <th><button type="button" data-sort="kelulusan">KELULUSAN <span></span></button></th>
+                <th><button type="button" data-sort="tarikh">TARIKH <span></span></button></th>
+                <th><span class="column-heading">HASHTAG</span></th>
+                <th><span class="column-heading">DOKUMEN</span></th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="pagination">
+          <span id="pageInfo">Rekod 0–0 daripada 0 · Halaman 1 daripada 1</span>
+          <div class="pagination-buttons">
+            <button id="prevPageBtn" class="icon-button" type="button" aria-label="Halaman sebelumnya">‹</button>
+            <button id="nextPageBtn" class="icon-button" type="button" aria-label="Halaman seterusnya">›</button>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        Paparan ini ialah alat rujukan dalaman dan tidak menggantikan semakan dokumen rasmi atau keputusan pihak berkuasa berkaitan.
+      </footer>
+    </main>
+  </div>
+
+  <div id="detailModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close-detail></div>
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <div class="modal-header">
+        <div><p class="section-kicker">BUTIRAN DOKUMEN</p><h2 id="detailTitle">Butiran Garis Panduan</h2></div>
+        <button class="icon-button" type="button" data-close-detail aria-label="Tutup">×</button>
+      </div>
+      <div id="detailContent"></div>
+    </section>
+  </div>
+
+  <div id="loadingOverlay" class="loading-overlay"><div class="loader"></div><p>Memuatkan rekod...</p></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js?v=4.2.0"></script>
+</body>
+</html>

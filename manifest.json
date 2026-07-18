@@ -1,0 +1,9 @@
+{
+  "name": "Pusat Rujukan Garis Panduan MBSP",
+  "version": "4.2.0",
+  "description": "Custom Widget Grist dengan penapis interaktif, jadual rujukan, tipografi seragam dan pembukaan pautan dokumen yang diperbaiki.",
+  "widget": {
+    "url": "index.html",
+    "accessLevel": "read table"
+  }
+}
